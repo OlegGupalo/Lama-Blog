@@ -1,0 +1,23 @@
+const Nightmare = require('nightmare')
+const nightmare = Nightmare({ show: true })
+ 
+nightmare
+  .goto('https://duckduckgo.com/')
+  .type('#search_form_input_homepage', 'Наруто)')
+  .click('#search_button_homepage')
+  .wait('#links .result__a')
+  .evaluate(() => document.querySelector('#links .result__a').href)
+  .click('#r1-2')
+  .wait(2000)
+  .evaluate(() => document.querySelector('#bodyContent #mw-content-text a').href)
+//   .click('#suggestion-search')
+//   .insert('#suggestion-search', 'Атака титанов')
+//   .click('#suggestion-search-button')
+//   .wait('#main .article')
+//   .evaluate(() => document.querySelector('#main .article').innerHTML)
+  .end()
+  .then(console.log)
+  .catch(error => {
+    console.error('Search failed:', error)
+  })
+

@@ -1,17 +1,59 @@
+import { Provider as ProviderStore} from 'components/Store';
+import News from 'pages/News/News';
 import React from 'react';
+import { SnackbarProvider } from 'notistack';
 import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import reportWebVitals from './reportWebVitals';
+import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import GlobalStyles from './globalStyles';
+import Layout from './layouts/Layout';
+import SignIn from './pages/SignIn/SignIn';
+import Main from 'pages/Main';
+import Navbar from 'components/Navbar';
+import Create from 'pages/Create';
+import Profile from 'pages/Profile';
+import Item from 'pages/News/Item';
+import Following from 'pages/Following';
+import ChatPage from 'pages/Chat'
+import socketIO from "socket.io-client"
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
+const socket = socketIO.connect("http://localhost:4000")
+console.log("socket", socket)
 root.render(
-  <React.StrictMode>
-    <App />
-  </React.StrictMode>
+  <React.Fragment>
+    <ProviderStore>
+      <SnackbarProvider>
+        <BrowserRouter>
+        <Navbar socket={socket} />
+          <Routes>
+            <Route
+              path=''
+              element={<Layout />}>
+              <Route
+                path='/'
+                element={<Main />}/>
+              
+              <Route
+                path='news'>
+                  <Route index element={<News />} />
+                  <Route path=':slug' element={<Item />} />
+              </Route>
+              <Route
+                path='create'
+                element={<Create />} />
+              <Route
+                path='chat'
+                element={<ChatPage socket={socket} />} />
+              <Route
+                path='profile'>
+                  <Route index element={<Profile />}/>
+                  <Route path=':username' element={<Following />}/>
+              </Route>
+            </Route>
+          </Routes>
+        </BrowserRouter>
+      </SnackbarProvider>
+    </ProviderStore>
+    <GlobalStyles />
+  </React.Fragment>
 );
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-reportWebVitals();
