@@ -27,9 +27,10 @@ const ChatBody = ({socket, typingStatus}) => {
   React.useEffect(() => {
     socket.on('all-messages-to-client', data => {
       setMessages(data)
+      console.log("data" , data)
     })
-    return () => socket.off('all-messages-to-client');
-  }, [socket, messages])
+    return () => socket.off('all-messages-to-client', setMessages);
+  }, [navigate, socket, messages])
 
   React.useEffect(() => {
     socket.on('new-message-to-client', data => {
@@ -47,7 +48,7 @@ const ChatBody = ({socket, typingStatus}) => {
       console.log("message NEW", messages)
     })
     return () => socket.off('new-message-to-client');
-  }, [socket, messages])
+  }, [navigate, socket, messages])
 
   React.useEffect(() => {
       lastMessageRef.current?.scrollIntoView({behavior: 'smooth'});
@@ -61,11 +62,11 @@ const ChatBody = ({socket, typingStatus}) => {
       <header className='chat__mainHeader'>
           <button className='leaveChat__btn' onClick={handleLeaveChat}>LEAVE CHAT</button>
         </header>
+        <React.Suspense>
         <div className='message__container'>
             {data === null || data === undefined
               ? <Loader />
               : Array.isArray(messages)
-                ? messages.length >= 0
                     ? messages.map(item => (
                         item.sender === data.username ? (
                           <div className="message__chats" key={item.id}>
@@ -101,7 +102,6 @@ const ChatBody = ({socket, typingStatus}) => {
                             </div>
                           </div>
                       ))
-                  : <React.Fragment></React.Fragment>
                 : <Loader visible={!Array.isArray(messages)}/>
               }
             
@@ -111,6 +111,7 @@ const ChatBody = ({socket, typingStatus}) => {
           </div>
           <div ref={lastMessageRef} />   
         </div>
+        </React.Suspense>
     </>
   )
 }
