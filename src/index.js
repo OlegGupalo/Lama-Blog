@@ -14,17 +14,16 @@ import Profile from 'pages/Profile';
 import Item from 'pages/News/Item';
 import Following from 'pages/Following';
 import ChatPage from 'pages/Chat'
-import socketIO from "socket.io-client"
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
-const socket = socketIO.connect("http://localhost:4000")
-console.log("socket", socket)
+
 root.render(
   <React.Fragment>
     <ProviderStore>
       <SnackbarProvider>
         <BrowserRouter>
-        <Navbar socket={socket} />
+        <Navbar />
           <Routes>
             <Route
               path=''
@@ -42,8 +41,8 @@ root.render(
                 path='create'
                 element={<Create />} />
               <Route
-                path='chat'
-                element={<ChatPage socket={socket} />} />
+                path='/chat'
+                element={<ChatPage />} />
               <Route
                 path='profile'>
                   <Route index element={<Profile />}/>
