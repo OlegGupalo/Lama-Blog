@@ -8,6 +8,7 @@ import selectApiExists from 'components/Store/api/selectors/exists.js'
 import selectorMainExtract from 'components/Store/main/selectors/extract.js';
 import { fireListGet as actionApiListGet } from 'components/Store/api/actions/list/get';
 import { Box, Grid, Typography } from '@mui/material'
+import img from './pxfuel.jpg';
 
 const StyledBackground = styled("div")`
     height: 100vh;
@@ -26,7 +27,7 @@ const StyledBackground = styled("div")`
         height: 100vh;
         margin-bottom: 300px;
         z-index: -1;
-        background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1)), url("https://images4.alphacoders.com/587/thumb-1920-587508.png");
+        background-image: linear-gradient(to bottom, rgba(0,0,0,0), rgba(0,0,0,1)), url(${img});
     }
 `
 

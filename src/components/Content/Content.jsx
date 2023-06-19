@@ -3,43 +3,7 @@ import { Image } from 'mui-image'
 import styled from 'styled-components'
 import { Box, Container, Grid } from '@mui/material'
 import { TypographyText as Typography } from 'components/Typography'
-
-var r = () => Math.random() * 256 >> 0;
-var color = `rgb(${r()}, ${r()}, ${r()})`;
-
-const itemArray = [
-    {
-        src: 'https://img3.goodfon.ru/wallpaper/nbig/f/17/vampir-alukard-hellsing.jpg',
-        title: 'Makise',
-        description: 'Time Leap Machine'
-    },
-    {
-        src: 'https://i.ytimg.com/vi/XM79rJcYye4/maxresdefault.jpg',
-        title: 'Monkey D Luffy',
-        description: 'I will be a Pirate King!'
-    },
-    {
-        src: 'http://localhost:4200/files/maxresdefault9741.jpg',
-        title: 'Amane Suzuha',
-        description: 'Otto-san, I need to kill Makise Kurisu'
-    },
-    {
-        src: 'https://kg-portal.ru/img/73607/main.jpg',
-        title: 'Amane Suzuha',
-        description: 'Time Leap Machine'
-    },
-    {
-        src: 'https://avatars.mds.yandex.net/get-mpic/6597196/img_id6199323012354072617.jpeg/600x800',
-        title: 'Amane Suzuha',
-        description: 'Time Leap Machine'
-    },
-    {
-        src: 'https://anime-fans.ru/wp-content/uploads/2021/08/Moya-gerojskaya-akademiya-nedavnij-obraz-Deku-v-mange-nazyvaetsya-CHernyj-Deku.jpg',
-        title: 'Amane Suzuha',
-        description: 'Time Leap Machine'
-    },
-    
-]
+import { useNews } from 'components/News/useNews'
 
 export const StyledTypography = styled("div")`
     color: white;
@@ -67,20 +31,31 @@ export const StyledTypography = styled("div")`
 `
 
 let Content = () => {
-    return <Container maxWidth="1180px">
+    const {news, loading} = useNews()
+    console.log("content", news)
+
+    let updatedNews = null
+    if(news) {
+        updatedNews = news.slice(0, 6)
+    }
+
+    return <Container maxWidth="1180px" sx={{
+        background: 'black'
+    }}>
         <Box sx={{marginTop: '3.25rem', marginBottom: '3.25rem'}}>
             <Typography 
                 variant='h2'
                 align='center'
-                sx={{marginBottom: '2.25rem'}}
+                sx={{marginBottom: '2.25rem', color: 'white'}}
                 
             >Последние статьи</Typography>
             <Grid container spacing={2}>
-                    {itemArray.map((_, index, currentArray) => {
+                    {updatedNews
+                        ? updatedNews.map((_, index, currentArray) => {
                         return (index <= 1)
                             ? <Grid item md={6} sx={{position: 'relative'}}>
                                 <Image 
-                                    src={currentArray[index].src}
+                                    src={`http://localhost:4200/files/${currentArray[index].image}`}
                                     duration={3000}
                                     fit="cover"
                                     height="372px"
@@ -100,7 +75,7 @@ let Content = () => {
                                 </Grid>
                             : <Grid item md={3} sx={{position: 'relative'}}>
                                     <Image 
-                                        src={currentArray[index].src}
+                                        src={`http://localhost:4200/files/${currentArray[index].image}`}
                                         duration={3000}
                                         fit="cover"
                                         height="293px"
@@ -117,7 +92,7 @@ let Content = () => {
                 
                                 </Grid>
                         })
-                    }
+                    : <></>}
             </Grid>
         </Box>
     </Container>

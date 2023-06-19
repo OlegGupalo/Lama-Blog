@@ -93,7 +93,7 @@ let DialogMenu = ({
 		        aria-labelledby="scroll-dialog-title"
 		        aria-describedby="scroll-dialog-description"
 		      >
-	        <DialogTitle id="scroll-dialog-title">Ses</DialogTitle>
+	        <DialogTitle id="scroll-dialog-title">{children[1].props.children}</DialogTitle>
 	        <DialogContent 
 						className='image'
 	         dividers={scroll === 'paper'}>

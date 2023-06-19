@@ -5,7 +5,7 @@ import { Divider, Grid, List, ListItem, Pagination } from "@mui/material"
 
 const PaginationItems = ({datas, children}) => {
     const [page, setPage] = useState(1)
-    const PER_PAGE = 5;
+    const PER_PAGE = 8;
     const count = Math.ceil(datas.length / PER_PAGE)
     const _DATA = usePagination(datas, PER_PAGE)
 
@@ -14,7 +14,7 @@ const PaginationItems = ({datas, children}) => {
         _DATA.jump(p);  
     };
 
-    console.log(_DATA.maxPage)
+    console.log(_DATA)
 
     return <React.Fragment>
       
@@ -50,10 +50,10 @@ const PaginationItems = ({datas, children}) => {
             count={count}
             size="large"
             page={page}
-            variant="outlined"
+            color="primary"
             shape="rounded"
             onChange={handleChange}
-            sx={{margin: '1.5rem 0 0 0'}}
+            sx={{margin: '1.5rem 0 1.5rem 0'}}
         />
     </React.Fragment>
 }

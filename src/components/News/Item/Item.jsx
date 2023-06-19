@@ -6,8 +6,23 @@ import {CSSTransition, TransitionGroup} from 'react-transition-group';
 import { StyledTypography } from 'components/Content/Content';
 import { fireListCurrent } from 'components/Store/current/actions/get';
 import StyledWrapped from '../StyledWrapped';
-import { Box, Button, Grid, Link, Paper, Typography } from '@mui/material';
+import { Box, Button, Grid, Link, Paper } from '@mui/material';
+import {TypographyText as Typography} from 'components/Typography'
 import './index.css'
+
+const StyledPosAbsol = styled("div")`
+    position: absolute;
+    bottom: 18px;
+    left: 30px;
+
+    a {
+        color: white !important;
+        text-decoration: none;
+        font-weight: 600;
+        font-family: 'Josefin Sans', 'Montserrat', sans-serif !important;
+    }
+
+`
 
 let Item = ({
     item,
@@ -41,7 +56,7 @@ let Item = ({
     console.log(item[index])
 
     return <>
-        <Image 
+        {/*<Image 
             src={`http://localhost:4200/files/${item[index].image}`}
             duration={3000}
             fit="cover"
@@ -51,14 +66,21 @@ let Item = ({
             style={{
                 borderRadius: '4px',
             }}
-        />
-        <StyledTypography>
-            <Link component={RouterLink} to={`${item[index].slug}`}>
+        />*/}
+        <div style={{
+            backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), #000000), url(http://localhost:4200/files/${item[index].image})`,
+            height: '372px',
+            backgroundSize: 'cover',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+        }}></div>
+        <StyledPosAbsol>
+            <Typography variant='h6' component={RouterLink} to={`${item[index].slug}`}>
                 {item[index].title}
-            </Link>
+            </Typography>
             <span>{item[index].description}</span>
                                     
-        </StyledTypography>
+        </StyledPosAbsol>
         {/* <Grid item md={4} 
             onMouseEnter={enter}
             onMouseLeave={leave}

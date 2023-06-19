@@ -6,12 +6,17 @@ import { fireListCurrent } from 'components/Store/current/actions/get';
 import { Link, useParams } from 'react-router-dom';
 import { TypographyText } from 'components/Typography';
 import Image from 'mui-image';
+import TimeAgo from 'react-timeago'
 import styled from 'styled-components';
+import frenchStrings from 'react-timeago/lib/language-strings/ru'
+import buildFormatter from 'react-timeago/lib/formatters/buildFormatter'
 import { fireFollowingGet } from 'components/Store/following/actions/get';
 import { Avatar, Box, Button, Divider } from '@mui/material';
 import axios from 'axios';
 import { useSnackbar } from 'notistack';
 import { fireFollowingPost } from 'components/Store/following/actions/follow';
+
+const formatter = buildFormatter(frenchStrings)
 
 const Unite = styled("div")`
     display: flex;
@@ -88,23 +93,25 @@ let Slug = ({
                 {!!auth && auth.username === data.author.username
                     ? <React.Fragment>
                             <StyledInfoAuthor>
-                                <Avatar
-                                    src={`http://localhost:4200/files/avatars/${data.author.image}`}
-                                    sx={{height: 60, width: 60}}
-                                />
-                                <div className='info_section'>
-                                    <TypographyText 
-                                            component={Link}
-                                            to={`/profile`}
-                                            className="name">
-                                                {data.author.username}
-                                            </TypographyText>
-                                    <TypographyText sx={{
-                                        fontSize: '0.775rem'
-                                    }}>
-                                        {data.author.followedUsers.length} followers
-                                    </TypographyText>
-                                </div>
+                                    <Avatar
+                                        src={`http://localhost:4200/files/avatars/${data.author.image}`}
+                                        sx={{height: 60, width: 60}}
+                                    />
+                                    <div className='info_section'>
+                                        <TypographyText 
+                                                component={Link}
+                                                to={`/profile`}
+                                                className="name">
+                                                    {data.author.username}
+                                                </TypographyText>
+                                        <TypographyText sx={{
+                                            fontSize: '0.775rem'
+                                        }}>
+                                            {data.author.followedUsers.length} followers
+                                        </TypographyText>
+                                    </div>
+                                
+
                             </StyledInfoAuthor>
                         <Box sx={{
                             position: 'absolute',
@@ -116,35 +123,54 @@ let Slug = ({
                             }}>
                                 Ваш пост
                             </TypographyText>
+                            <TimeAgo style={{
+                                display: 'block',
+                                fontSize: '12px',
+                                color: 'grey',
+                                fontFamily: "'Montserrat', sans-serif"
+                            }} date={data.createdAt} formatter={formatter} />
                         </Box>
                     </React.Fragment>
                     : <React.Fragment>
                         <StyledInfoAuthor>
-                            <Avatar
-                                src={`http://localhost:4200/files/avatars/${data.author.image}`}
-                                sx={{height: 60, width: 60}}
-                            />
-                            <div className='info_section'>
-                                    <TypographyText 
-                                        component={Link}
-                                        to={`/profile/${data.author.username}`}
-                                        className="name">
-                                            {data.author.username}
+                            
+                                <Avatar
+                                    src={`http://localhost:4200/files/avatars/${data.author.image}`}
+                                    sx={{height: 60, width: 60}}
+                                />
+                                <div className='info_section'>
+                                        <TypographyText 
+                                            component={Link}
+                                            to={`/profile/${data.author.username}`}
+                                            className="name">
+                                                {data.author.username}
+                                        </TypographyText>
+                                    
+                                    <TypographyText sx={{
+                                        fontSize: '0.775rem'
+                                    }}>
+                                        {data.author.followedUsers.length} followers
                                     </TypographyText>
-                                
-                                <TypographyText sx={{
-                                    fontSize: '0.775rem'
-                                }}>
-                                    {data.author.followedUsers.length} followers
-                                </TypographyText>
-                            </div>
-                        </StyledInfoAuthor>
+
+                                </div>
+                            <TimeAgo style={{
+                                position: 'absolute',
+                                right: 0,
+                                display: 'block',
+                                fontSize: '12px',
+                                color: 'grey',
+                                fontFamily: "'Montserrat', sans-serif"
+                            }} date={data.createdAt} formatter={formatter} />
+
+                            </StyledInfoAuthor>
                     </React.Fragment>
                 }
                 </Unite>
                 <Divider />
                 
-                <TypographyText variant='h2'>{data.title}</TypographyText>
+                <TypographyText variant='h2' sx={{
+                    margin: '1rem 0 1rem 0'
+                }}>{data.title}</TypographyText>
                 <Image
                     src={`http://localhost:4200/files/${data.image}`}
                     duration={500}

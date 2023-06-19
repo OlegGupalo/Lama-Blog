@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, {useState, useCallback} from 'react'
 import styled from "styled-components";
 import { useSnackbar } from "notistack";
 import { useSelector } from "react-redux";
@@ -16,11 +16,10 @@ import Loader from "components/Loader";
 import { TypographyText as Typography } from "components/Typography";
 import selectorMainExtract from 'components/Store/main/selectors/extract.js';
 import { fireProp as actionAuthProp } from "components/Store/auth/actions/prop";
-import { fireLogin as actionAuthLogin} from "components/Store/auth/actions/login";
+import { fireRegistration as actionAuthRegistration } from "components/Store/auth/actions/registration";
 import { fireListTest as actionApiTestGet } from 'components/Store/test/actions/lis/get';
 import { fireProp } from "components/Store/auth/actions/prop";
-import Registration from './Registration'
-import Login from './Login'
+
 
 export const StyledInput = styled(TextField)`
 	.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
@@ -50,7 +49,7 @@ const StyledBoxActions = styled(Box)`
 `
 
 const StyledButton = styled(Button)`
-	width: 157px !important;
+	// width: 157px !important;
 	height: 48px !important;
 	border-radius: 0px !important;
 	font-family: 'Oswald', sans-serif !important;
@@ -68,27 +67,32 @@ const StyledButtonLink = styled(Button)`
 
 const StyledBottomActions = styled("div")`
 	background-color: rgb(241 241 241);
-	margin-top: calc(100% - 270px);
+	margin-top: 50px;
 	display: flex;
 	justify-content: space-around;
 	align-items: center;
 `
 
-let SignIn = ({ 
-	change,
-	onClose = () => {}
+let Registration = ({
+	setChoice = () => {},
+	onClose = () => {},
+	change
 }) => {
 	const navigate = useNavigate()
 	const { enqueueSnackbar } = useSnackbar()
 	const [visible, setVisible] = useState(() => false)
-	const [choice, setChoice] = useState('login')
 	const loader = useSelector(selectorMainExtract([ 'auth', 'loader' ]))
 	const error = useSelector(selectorMainExtract([ 'auth', 'error' ])) ?? {}
+	const username = useSelector(selectorMainExtract(['auth', 'username'])) ?? ''
 	const email = useSelector(selectorMainExtract(['auth', 'email'])) ?? ''
 	const password = useSelector(selectorMainExtract(['auth', 'password'])) ?? ''
     const data = useSelector(selectorMainExtract(['test', 'list', 'user', 'data']))
     const flagData = useSelector(selectorMainExtract(['auth']))
 	
+    const onUsername = React.useCallback((e) => {
+    	actionAuthProp('username', e.target.value)()
+    })
+
 	const onEmail = React.useCallback((e) => {
 		actionAuthProp('email', e.target.value)()
 	},[])
@@ -104,9 +108,9 @@ let SignIn = ({
 	])
 
 
-	const onSignIn = React.useCallback((e) => {
+	const onSignUp = React.useCallback((e) => {
 		e.preventDefault()
-			actionAuthLogin(navigate)(enqueueSnackbar)
+			actionAuthRegistration(navigate)(enqueueSnackbar)
 			
 			onClose(!change)
 	}, [
@@ -115,28 +119,57 @@ let SignIn = ({
 		loader
 	])
 
-	console.log('error',error)
 
 	return <React.Fragment>
-	{choice === 'login'
-		? <Login 
-				setChoice={choice => setChoice(choice)} 
-				onClose={onClose}
-				change={change}
-			/>
-		: <React.Fragment />
-	}
-	{choice === 'registration'
-		? <Registration 
-				setChoice={choice => setChoice(choice)} 
-				onClose={onClose}
-				change={change}
-			/>
-		: <React.Fragment />
-	}
-		
-	</React.Fragment>;
-};
+		<form onSubmit={onSignUp}>
+				<StyledInput 
+					required
+					sx={{marginTop: '1.25rem'}} 
+					name="email"
+					placeholder='Имя' 
+					fullWidth 
+					value={username}
+					onChange={onUsername}
+					helperText={error['username']}
+				/>
+				<StyledInput 
+					required
+					sx={{marginTop: '1.25rem'}} 
+					name="email"
+					placeholder='Почта' 
+					fullWidth 
+					value={email}
+					onChange={onEmail}
+					helperText={error['email']}
+				/>
+				<StyledInput 
+					required
+					name="password"
+					type="password"
+					sx={{marginTop: '1.25rem'}} 
+					placeholder='Пароль' 
+					value={password}
+					onChange={onPassword}
+					helperText={error['password']}
+					fullWidth
+				/>
+				<StyledBoxActions>
+					{/*<StyledControlLabel control={<Checkbox />} label="Запомнить моё имя">
+						
+					</StyledControlLabel>*/}
+					<StyledButton type="submit" fullWidth variant='contained'>Зарегистрироваться</StyledButton>
+				</StyledBoxActions>
+			</form>
+			<StyledBottomActions>
+				<Typography>
+					Есть аккаунт?
+				</Typography>
+				<StyledButtonLink variant='contained' onClick={() => {
+					setChoice('login')
+				}} size='large'>Войти</StyledButtonLink>
+			</StyledBottomActions>
+	</React.Fragment>
+}
 
-SignIn = React.memo(SignIn)
-export default SignIn
+Registration = React.memo(Registration)
+export default Registration

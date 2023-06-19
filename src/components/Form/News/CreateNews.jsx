@@ -4,21 +4,6 @@ import ImageTool from '../Image'
 import ReactEditor from './utils/Editor'
 import { Box, Button, Tab } from '@mui/material'
 import { TabContext, TabList, TabPanel } from '@mui/lab'
-import {
-    TabbedForm,
-    FormTab,
-    Edit,
-    Datagrid,
-    TextField,
-    DateField,
-    TextInput,
-    ReferenceManyField,
-    NumberInput,    
-    DateInput,
-    BooleanInput,
-    EditButton,
-    Create
-} from 'react-admin';
 import { SaveOutlined } from '@mui/icons-material'
 import { useNavigate } from 'react-router-dom'
 import { StyledInput } from '../SignIn/SignIn'

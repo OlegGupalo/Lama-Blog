@@ -14,6 +14,7 @@ import Profile from 'pages/Profile';
 import Item from 'pages/News/Item';
 import Following from 'pages/Following';
 import ChatPage from 'pages/Chat'
+import Video from 'pages/Video';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -31,7 +32,10 @@ root.render(
               <Route
                 path='/'
                 element={<Main />}/>
-              
+               <Route 
+                path='video'
+                element={<Video />}
+              />
               <Route
                 path='news'>
                   <Route index element={<News />} />
@@ -41,13 +45,14 @@ root.render(
                 path='create'
                 element={<Create />} />
               <Route
-                path='/chat'
+                path='chat'
                 element={<ChatPage />} />
               <Route
                 path='profile'>
                   <Route index element={<Profile />}/>
                   <Route path=':username' element={<Following />}/>
               </Route>
+             
             </Route>
           </Routes>
         </BrowserRouter>

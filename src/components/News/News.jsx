@@ -13,13 +13,16 @@ import Loader from 'components/Loader';
 import PaginationItems from './Pagination'
 import usePagination from './Pagination/utils/usePagination';
 import { Box, Button, Grid, Paper, Typography } from '@mui/material';
+import {useNews} from './useNews.jsx'
 
 let News = () => {
     const {enqueueSnackbar} = useSnackbar()
     const apiExists = useSelector(selectApiExists())
-    const unmount = useSelector(selectorMainExtract(['loader', 'unmount', 'visible']))
-    const loader = useSelector(selectorMainExtract(['api', 'list', 'news', 'loader']))
+    // const unmount = useSelector(selectorMainExtract(['loader', 'unmount', 'visible']))
+    // const loader = useSelector(selectorMainExtract(['api', 'list', 'news', 'loader']))
     const data = useSelector(selectorMainExtract(['api', 'list', 'news', 'data']))
+    const {news, loading} = useNews()
+    console.log("hook", news, loading)
 
     useEffect(() => {
         if(apiExists) {
@@ -36,6 +39,10 @@ let News = () => {
 
 
     return <>
+        {/*{loading
+            ? <Loader visible={loading} />
+            : news.map(e => <p>Hey</p>)
+        }*/}
         <Loader visible={!Array.isArray(data)} />
         
         {(Array.isArray(data))

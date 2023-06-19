@@ -26,7 +26,7 @@ const StyledLinear = styled("div")`
     left: 0;
     top: 0;
     background-image:
-    linear-gradient(90deg, rgba(118,26,21, 0.5) 1%, rgba(118,26,21,0.99) 50%);
+    linear-gradient(90deg, #6c0a0b7a 1%, #6c0a0b 50%);
     z-index: 20;
 `
 const StyledText = styled("div")`

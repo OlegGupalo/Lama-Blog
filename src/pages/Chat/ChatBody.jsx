@@ -19,15 +19,12 @@ const ChatBody = ({socket, typingStatus}) => {
   console.log("Data", data)
 
   const handleLeaveChat = () => {
-    localStorage.removeItem("userName")
     navigate("/")
-    window.location.reload()
   }
 
   React.useEffect(() => {
     socket.on('all-messages-to-client', data => {
       setMessages(data)
-      console.log("data" , data)
     })
     return () => socket.off('all-messages-to-client', setMessages);
   }, [navigate, socket, messages])
@@ -45,7 +42,6 @@ const ChatBody = ({socket, typingStatus}) => {
         }
         
       ])
-      console.log("message NEW", messages)
     })
     return () => socket.off('new-message-to-client');
   }, [navigate, socket, messages])
@@ -54,7 +50,6 @@ const ChatBody = ({socket, typingStatus}) => {
       lastMessageRef.current?.scrollIntoView({behavior: 'smooth'});
   }, [messages]);
 
-  console.log(messages)
 
   
   return (

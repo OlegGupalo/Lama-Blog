@@ -46,7 +46,7 @@ const StyledInput = styled("input")`
     }
 `
 
-const StyledResponsiveButton = styled(Button)`
+export const StyledResponsiveButton = styled(Button)`
     position: relative;
     // left: calc(100% - 790px);
     // bottom: 50px;

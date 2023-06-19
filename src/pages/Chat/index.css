@@ -105,7 +105,7 @@
   height: 100%;
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-around;
 }
 .message {
   width: 80%;
@@ -113,19 +113,20 @@
   border-radius: 10px;
   border: 1px solid #ddd;
   outline: none;
-  padding: 15px;
+  padding: 20px;
 }
 .sendBtn {
-  width: 150px;
+  width: 180px;
   background-color: green;
   padding: 10px;
   border: none;
   outline: none;
   color: #EAE3D2;
+  height: 70%;
   cursor: pointer;
 }
 .sendBtn:hover {
-  background-color: rgb(129, 201, 129);
+  background-color: #105f10;
 }
 .message__recipient {
   background-color: #f5ccc2;

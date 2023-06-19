@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react"
+import React, {useState, useCallback} from 'react'
 import styled from "styled-components";
 import { useSnackbar } from "notistack";
 import { useSelector } from "react-redux";
@@ -19,8 +19,7 @@ import { fireProp as actionAuthProp } from "components/Store/auth/actions/prop";
 import { fireLogin as actionAuthLogin} from "components/Store/auth/actions/login";
 import { fireListTest as actionApiTestGet } from 'components/Store/test/actions/lis/get';
 import { fireProp } from "components/Store/auth/actions/prop";
-import Registration from './Registration'
-import Login from './Login'
+
 
 export const StyledInput = styled(TextField)`
 	.css-md26zr-MuiInputBase-root-MuiOutlinedInput-root {
@@ -50,7 +49,6 @@ const StyledBoxActions = styled(Box)`
 `
 
 const StyledButton = styled(Button)`
-	width: 157px !important;
 	height: 48px !important;
 	border-radius: 0px !important;
 	font-family: 'Oswald', sans-serif !important;
@@ -74,14 +72,14 @@ const StyledBottomActions = styled("div")`
 	align-items: center;
 `
 
-let SignIn = ({ 
-	change,
-	onClose = () => {}
+let Login = ({
+	setChoice = () => {},
+	onClose = () => {},
+	change
 }) => {
 	const navigate = useNavigate()
 	const { enqueueSnackbar } = useSnackbar()
 	const [visible, setVisible] = useState(() => false)
-	const [choice, setChoice] = useState('login')
 	const loader = useSelector(selectorMainExtract([ 'auth', 'loader' ]))
 	const error = useSelector(selectorMainExtract([ 'auth', 'error' ])) ?? {}
 	const email = useSelector(selectorMainExtract(['auth', 'email'])) ?? ''
@@ -115,28 +113,47 @@ let SignIn = ({
 		loader
 	])
 
-	console.log('error',error)
 
 	return <React.Fragment>
-	{choice === 'login'
-		? <Login 
-				setChoice={choice => setChoice(choice)} 
-				onClose={onClose}
-				change={change}
-			/>
-		: <React.Fragment />
-	}
-	{choice === 'registration'
-		? <Registration 
-				setChoice={choice => setChoice(choice)} 
-				onClose={onClose}
-				change={change}
-			/>
-		: <React.Fragment />
-	}
-		
-	</React.Fragment>;
-};
+		<form onSubmit={onSignIn}>
+				<StyledInput 
+					required
+					sx={{marginTop: '1.25rem'}} 
+					name="email"
+					placeholder='Почта' 
+					fullWidth 
+					value={email}
+					onChange={onEmail}
+					helperText={error['email']}
+				/>
+				<StyledInput 
+					required
+					name="password"
+					type="password"
+					sx={{marginTop: '1.25rem'}} 
+					placeholder='Пароль' 
+					value={password}
+					onChange={onPassword}
+					error={error['password']}
+					fullWidth
+				/>
+				<StyledBoxActions>
+					{/*<StyledControlLabel control={<Checkbox />} label="Запомнить моё имя">
+						
+					</StyledControlLabel>*/}
+					<StyledButton type="submit" fullWidth variant='contained'>Войти</StyledButton>
+				</StyledBoxActions>
+			</form>
+			<StyledBottomActions>
+				<Typography>
+					Нет аккаунта?
+				</Typography>
+				<StyledButtonLink variant='contained' onClick={() => {
+					setChoice('registration')
+				}} size='large'>Зарегистрируйся</StyledButtonLink>
+			</StyledBottomActions>
+	</React.Fragment>
+}
 
-SignIn = React.memo(SignIn)
-export default SignIn
+Login = React.memo(Login)
+export default Login

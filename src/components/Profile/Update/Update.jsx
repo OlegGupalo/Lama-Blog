@@ -79,7 +79,7 @@ let Update = ({
 		setLocalValue,
 	]);
     
-    return <div style={{marginTop: '1rem'}}>
+    return <div style={{marginLeft: '220px',marginTop: '3rem'}}>
             <DropContainer>
                 <span>Обновить</span>
                 <input 

@@ -73,9 +73,9 @@ let Item = ({
                     }}>{author.username}</Typography>
             </StyledAuthor> */}  
             <StyledBack style={{
-                backgroundImage: `url(http://localhost:4200/files/${image})`,
+                backgroundImage: `linear-gradient(to bottom, rgba(0, 0, 0, 0), #000000), url(http://localhost:4200/files/${image})`,
                 backgroundSize: 'cover',
-                backgroundPositionY: 'center'
+                backgroundPosition: 'center'
             }}>
              {/*        <img style={{
                         width: 248,height: 248, 
@@ -99,13 +99,13 @@ let Item = ({
                 position="bottom"
                 sx={{
                     height: '100px',
-                    background: 'rgba(0, 0, 0, 0.8)',
+                    background: 'none',
 
                     '.MuiImageListItemBar-title': {
                         fontSize: '23px',
                         fontFamily: "'Josefin Sans', 'Montserrat' ,sans-serif !important",
                         fontWeight: 'bold',
-                    cursor: 'pointer'
+                        cursor: 'pointer'
 
                     }
                 }}

@@ -5,8 +5,9 @@ import Background from 'components/Background'
 import styled from 'styled-components'
 import Content from 'components/Content'
 import Bar from 'components/Bar'
+import { useLocation } from 'react-router-dom'
 
-let Main = () => {
+let Main = (props) => {
     return <React.Fragment>
         <MainPage />
         <Content />

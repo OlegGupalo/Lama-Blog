@@ -26,7 +26,7 @@ let UpdateProfile = ({
         const payload = new FormData()
         if(usernameData) payload.append('username', usernameData)
         if(emailData) payload.append('email', emailData)
-        payload.append('image', e.target.elements['image'].files[0])
+        if(e.target.elements['image'].files[0]) payload.append('image', e.target.elements['image'].files[0])
         let token = localStorage.getItem('token')
         axios.delete(`http://localhost:4200/files/avatars/${image}`, {
             headers: {
@@ -56,7 +56,7 @@ let UpdateProfile = ({
             updateAvatar={e => setImageUpt(e)}
             {...data} />
             <Button 
-                sx={{borderRadius: '0px', fontFamily: 'Oswald, sans-serif'}}
+                sx={{marginTop: '4.5rem', borderRadius: '0px', fontFamily: 'Oswald, sans-serif'}}
                 variant='contained' 
                 color='success' 
                 type='submit'
