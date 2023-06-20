@@ -1,11 +1,8 @@
 import React, { useEffect } from 'react';
 import styled from 'styled-components'
-import {Box} from  '@mui/material'
-import { useSnackbar } from 'notistack';
-import selectorMainExtract from 'components/Store/main/selectors/extract.js';
-import selectApiExists from 'components/Store/api/selectors/exists.js'
-import { fireListGet as actionApiListGet } from 'components/Store/api/actions/list/get';
+import {Box, Grid, useMediaQuery} from  '@mui/material'
 import Loader from 'components/Loader';
+import { Scrollbar } from 'react-scrollbars-custom';
 
 const Item = styled("div")`
     flex: 0 1 100%;
@@ -35,40 +32,61 @@ const Item = styled("div")`
 const MainPosts = ({
     data = []
 }) => {
+    const isMobile = useMediaQuery('(max-width:600px)')
+    console.log("isMobile", isMobile)
     
     return <React.Fragment>
         <div style={{
         position: 'absolute',
-        bottom: 0,
-        right: 0,
-        width: '66.7vw',
+        left: 0,
+        bottom: `${isMobile ? '-270px' : '0px'}`,
+        width: '100%',
     }}>
         
             {(Array.isArray(data))
-            ? <Box sx={{
-                display: 'flex',
-                justifyContent: 'space-around',
-                alignItems: 'center',
-            }}>
-                {data.length > 0
-                    ? (data.map((item, key) => 
-                    <Item key={key}>
-                    <div style={{
-                        }}>
-                            <img src={`http://localhost:4200/files/${item.image}`} />
-                        </div>
+            ? isMobile 
+                ? <Scrollbar style={{ width: '100%', height: '250px' }}>
+                    <Box sx={{ display: 'flex' }}>
+                        {data.length > 0
+                            ? data.map((item, key) => (
+                                <Item key={key} sx={{width: '100%'}}>
+                                  <div style={{}}>
+                                    <img src={`http://localhost:4200/files/${item.image}`} />
+                                  </div>
+                                  <div style={{ width: '100%', paddingLeft: '0.5vw' }}>
+                                    <span>{item.title}</span>
+                                    <p>{!item.description.length ? 'Какой-то description' : item.description}</p>
+                                  </div>
+                                </Item>
+                              ))
+                            : <React.Fragment></React.Fragment>
+                        }
+                    </Box>
+                </Scrollbar>
+                : <Box sx={{
+                    display: 'flex',
+                    justifyContent: 'space-around',
+                    alignItems: 'center',
+                }}>
+                    {data.length > 0
+                        ? (data.map((item, key) => 
+                        <Item key={key}>
                         <div style={{
-                            width: '100%',
-                            paddingLeft: '0.5vw'
-                        }}>
-                            <span>{item.title}</span>
-                            <p>{!item.description.length ? 'Какой-то description' : item.description}</p>
-                        </div>
-                    </Item>
-                    ))
-                    : <React.Fragment></React.Fragment>
-                }
-            </Box>
+                            }}>
+                                <img src={`http://localhost:4200/files/${item.image}`} />
+                            </div>
+                            <div style={{
+                                width: '100%',
+                                paddingLeft: '0.5vw'
+                            }}>
+                                <span>{item.title}</span>
+                                <p>{!item.description.length ? 'Какой-то description' : item.description}</p>
+                            </div>
+                        </Item>
+                        ))
+                        : <React.Fragment></React.Fragment>
+                    }
+                </Box> 
                 
             : <Loader visible={!Array.isArray(data)} />
         }

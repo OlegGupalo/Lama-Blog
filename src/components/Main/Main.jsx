@@ -7,7 +7,7 @@ import Loader from 'components/Loader'
 import selectApiExists from 'components/Store/api/selectors/exists.js'
 import selectorMainExtract from 'components/Store/main/selectors/extract.js';
 import { fireListGet as actionApiListGet } from 'components/Store/api/actions/list/get';
-import { Box, Grid, Typography } from '@mui/material'
+import { Box, Grid, Typography, useMediaQuery } from '@mui/material'
 import img from './pxfuel.jpg';
 
 const StyledBackground = styled("div")`
@@ -35,13 +35,12 @@ const StyledTitle = styled(Typography)`
     font-family: Montserrat, sans-serif;
     color: rgb(255, 255, 255);
     font-weight: 800 !important;
-    font-size: 2.8rem !important;
     letter-spacing: 0.18rem !important;
     line-height: 3.7rem !important;
     text-transform: uppercase;
 `
 
-const StyledBox = styled(Box)`
+const StyledBox = styled(Grid)`
     width: 57%;
     font-family: Montserrat, sans-serif;
     padding-left: calc(6% + 2.5rem);
@@ -60,9 +59,11 @@ const StyledTypography = styled("p")`
 let Main = () => {
     const {enqueueSnackbar} = useSnackbar()
     const apiExists = useSelector(selectApiExists())
-    const unmount = useSelector(selectorMainExtract(['loader', 'unmount', 'visible']))
-    const loader = useSelector(selectorMainExtract(['api', 'list', 'news', 'loader']))
+    // const unmount = useSelector(selectorMainExtract(['loader', 'unmount', 'visible']))
+    // const loader = useSelector(selectorMainExtract(['api', 'list', 'news', 'loader']))
     const data = useSelector(selectorMainExtract(['api', 'list', 'news', 'data']))
+    const isMobile = useMediaQuery("(max-width:600px)")
+    console.log("MAINMOBILE", isMobile)
     
     useEffect(() => {
         if(apiExists) {
@@ -85,19 +86,19 @@ let Main = () => {
     <StyledBackground>
 
         <Box sx={{
-            paddingTop: '3.75rem',
+            paddingTop: `${isMobile ? '' : '3.75rem'}`,
         }}>
             <StyledBox>
-                <StyledTitle variant="h3">
+                <StyledTitle variant="h3" sx={{ fontSize: `${isMobile ? '1.6rem !important' : '2.8rem !important'}` }}>
                     The Elder Scrolls online: firesong & update 36 now live on pc/mac
                 </StyledTitle>
-                <StyledTypography>
+                {isMobile ? <></> : <StyledTypography>
                     Protect the Legacy of the Bretons and bring your year-long adventure to its conclusion in The Elder Scrolls Online: Firesong and Update 36. 
-                </StyledTypography>
+                </StyledTypography>}
             </StyledBox>
         </Box>
-    </StyledBackground>
     <MainPosts data={data.slice(0,4)} />
+    </StyledBackground>
     </>
 }
 

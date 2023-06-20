@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import styled from 'styled-components'
-import { Box, Drawer, IconButton, ListItem, List, ListItemButton } from '@mui/material'
+import { Box, Drawer, IconButton, ListItem, List, ListItemButton, Grid } from '@mui/material'
 import { ChevronLeft, MenuOutlined, ClearAll, Close } from '@mui/icons-material'
 import {TypographyText as Typography} from 'components/Typography'
 
@@ -61,10 +61,8 @@ const Burger = () => {
             }} color='error' onClick={handleClose}>
                 <Close />
             </Box>
-            <Box sx={{
-                width: '280px',
-            }}>
-                <List>
+            <Grid xs={4} md={8}>
+                <Grid xs={4} md={8}>
                     <StyledListItemButton>
                         <ListItemButton 
                             component={Link} 
@@ -88,8 +86,8 @@ const Burger = () => {
                             </Typography>
                         </ListItemButton>
                     </StyledListItemButton>
-                </List>
-            </Box>
+                </Grid>
+            </Grid>
         </Drawer>
     </React.Fragment>
 }

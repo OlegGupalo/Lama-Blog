@@ -53,7 +53,7 @@ let Content = () => {
                     {updatedNews
                         ? updatedNews.map((_, index, currentArray) => {
                         return (index <= 1)
-                            ? <Grid item md={6} sx={{position: 'relative'}}>
+                            ? <Grid item md={6} xs={12} sx={{position: 'relative'}}>
                                 <Image 
                                     src={`http://localhost:4200/files/${currentArray[index].image}`}
                                     duration={3000}
